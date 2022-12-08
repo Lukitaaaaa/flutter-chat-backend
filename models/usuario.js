@@ -1,20 +1,23 @@
-const { Schema, model } = require('mongoose'); //ayuda a crear el modelo
+// MODELOS DE USUARIO PARA GRABAR EN LA BASE DE DATOS
+// TIENE UN NOMBRE, UN EMAIL, UN PASSWORD Y EL ESTADO DE CONEXION
 
-const UsuarioSchema = Schema({
+const { Schema, model } = require('mongoose'); // IMPORTAMOS LA LIBRERIA 'mongoose'
+
+const UsuarioSchema = Schema({ //SCHEMA NOS AYDARA A CREAR EL MODELO
 
     nombre: {
         type: String,
-        require: true
+        required: true
     },
 
     email: {
         type: String,
-        require: true,
+        required: true,
         unique: true,
     },
     password: {
         type: String,
-        require: true
+        required: true
     },
     online: {
         type: Boolean,
@@ -28,4 +31,4 @@ UsuarioSchema.method('toJSON', function(){
     return object; 
 })
 
-module.exports = model('Usuario', UsuarioSchema);
+module.exports = model('Usuario', UsuarioSchema); // EXPORTAMOS EL MODELO Y EL ESQUEMA

@@ -1,12 +1,13 @@
+// CONTROLADOR DE LAS FUNCIONES DE LOS USUARIOS
+
 const { response } = require("express");
 const bcrypt = require("bcryptjs");
 
 const Usuario = require("../models/usuario");
 const { generarJWT } = require("../helpers/jwt");
-const { findOne } = require("../models/usuario");
 
 
-const crearUsuario = async (req, res = response)=> {
+const crearUsuario = async (req, res = response)=> { // FUNCION DE CREAR USUARIO
 
     const { email, password } = req.body;
 
@@ -27,7 +28,7 @@ const crearUsuario = async (req, res = response)=> {
         const salt = bcrypt.genSaltSync(); //salt sirve para generar caracteres de manera aleatoria para incriptar la contraseña 
         usuario.password = bcrypt.hashSync( password, salt );
 
-        await usuario.save();
+        await usuario.save(); // SE GUARDA EL USUARIO EN LA BASE DE DATOS
 
         // Generar mi JWT
 
@@ -43,28 +44,28 @@ const crearUsuario = async (req, res = response)=> {
         console.log(error);
         res.status(500).json({
             ok: false,
-            msg: 'Hable con su vieja'
+            msg: 'Vaya a un psicologo'
         });
     }
 }
 
-const login = async (req , res = response) => {
+const login = async (req , res = response) => { // FUNCION DEL LOGIN
 
-    const { email,password } = req.body;
+    const { email,password } = req.body; // RECIBIMOS UN EMAIL Y UNA CONTRASEÑA
 
     try{
 
-        const usuarioDB = await  Usuario.findOne({ email });
-        if ( !usuarioDB ) {
-            return res.status(404).json({
+        const usuarioDB = await  Usuario.findOne({ email }); // BUSCA EL EMAIL EN LA BASE DE DATOS
+        if ( !usuarioDB ) { // SI NO EXISTE
+            return res.status(404).json({ // DEVUELVE ESTE ERROR
                 ok:false,
                 mgs: 'Email no encontrado'
             });
         }
 
         // Validar el password
-        const validarPassword = bcrypt.compareSync( password, usuarioDB.password );
-        if ( !validarPassword ) {
+        const validarPassword = bcrypt.compareSync( password, usuarioDB.password ); 
+        if ( !validarPassword ) { 
             return res.status(400).json({
                 ok:false,
                 mgs: 'La contraseña no es valida'
@@ -90,7 +91,8 @@ const login = async (req , res = response) => {
     }
 }
 
-const renewToken = async( req, res = response ) => {
+
+const renewToken = async( req, res = response ) => { // FUNCION DE RENOVAR EL TOKEN CADA VEZ QUE USUARIO HABRA LA APLICACION
 
     const uid = req.uid;
 

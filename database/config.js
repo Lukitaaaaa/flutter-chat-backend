@@ -1,12 +1,12 @@
-const mongoose = require("mongoose");
+// CONFIGURACION DE LA BASE DE DATOS
 
-const dbConnection = async() => {
+const mongoose = require("mongoose"); // IMPORTAMOS MONGOOSE
+
+const dbConnection = async() => { // FUNCION ENCARGADA DE LA CONEXION
 
     try {
 
-        await mongoose.connect( process.env.DB_CONNECTION, {
-            
-        });
+        await mongoose.connect( process.env.DB_CONNECTION, {});
 
         console.log('DB Online')
 
@@ -16,6 +16,6 @@ const dbConnection = async() => {
     }
 }
 
-module.exports = {
+module.exports = { // EXPORTAMOS LA FUNCION
     dbConnection
 }
